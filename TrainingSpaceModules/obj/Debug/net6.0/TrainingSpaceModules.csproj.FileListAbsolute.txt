@@ -1,0 +1,15 @@
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\bin\Debug\net6.0\TrainingSpaceModules.exe
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\bin\Debug\net6.0\TrainingSpaceModules.deps.json
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\bin\Debug\net6.0\TrainingSpaceModules.runtimeconfig.json
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\bin\Debug\net6.0\TrainingSpaceModules.dll
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\bin\Debug\net6.0\ref\TrainingSpaceModules.dll
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\bin\Debug\net6.0\TrainingSpaceModules.pdb
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\obj\Debug\net6.0\TrainingSpaceModules.csproj.AssemblyReference.cache
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\obj\Debug\net6.0\TrainingSpaceModules.GeneratedMSBuildEditorConfig.editorconfig
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\obj\Debug\net6.0\TrainingSpaceModules.AssemblyInfoInputs.cache
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\obj\Debug\net6.0\TrainingSpaceModules.AssemblyInfo.cs
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\obj\Debug\net6.0\TrainingSpaceModules.csproj.CoreCompileInputs.cache
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\obj\Debug\net6.0\TrainingSpaceModules.dll
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\obj\Debug\net6.0\ref\TrainingSpaceModules.dll
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\obj\Debug\net6.0\TrainingSpaceModules.pdb
+C:\VB\TestRep\TrainingSpace\TrainingSpaceModules\obj\Debug\net6.0\TrainingSpaceModules.genruntimeconfig.cache

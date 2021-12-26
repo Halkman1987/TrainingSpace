@@ -5,7 +5,8 @@ class Program
 
     public static void Main(string[] args)
     {
-
+        Console.WriteLine("\t\tПредлагаю вам заполнить сводную анкету о вас и ваших предпочтениях !");
+        Console.WriteLine();
         (string Name, string Oldname, int Age, string[] Pet, string[] favcolors) UserAnketa;
         UserAnketa = Anketa();
         Console.WriteLine();
@@ -44,7 +45,7 @@ class Program
         Console.WriteLine("Имеется ли у вас питомец Да/Нет :");
         var result = Console.ReadLine();
         string[] pitom = new string[0];
-        if (result == "Да")
+        if (result == "Да" | result == "да")
         {
             Console.WriteLine("Укажите сколько у вас питомцев (цифрами) : ");
             int pets = Convert.ToInt32(Console.ReadLine());
