@@ -1,151 +1,302 @@
 ﻿using System;
+using System.Collections.Generic;
+
 class Program
 {
-    //------------------------------------------ ИТОГОВОЕ ЗАДАНИЕ 5.6 ----------------------------------------------------
-
     public static void Main(string[] args)
     {
-        Console.WriteLine("\t\tПредлагаю вам заполнить сводную анкету о вас и ваших предпочтениях !");
-        Console.WriteLine();
-        (string Name, string Oldname, int Age, string[] Pet, string[] favcolors) UserAnketa;
-        UserAnketa = Anketa();
-        Console.WriteLine();
-        Console.WriteLine("-----------------------------------------------------------");
-        Console.WriteLine();
-        Console.WriteLine();
-        PrintUser(UserAnketa.Name, UserAnketa.Oldname, UserAnketa.Age, UserAnketa.Pet, UserAnketa.favcolors);
-
-    }
-
-
-    static (string Name, string Oldname, int Age, string[] pitom, string[] col) Anketa()
-    {
-
-        Console.WriteLine("Введите ваше Имя :");
-        var Name = Console.ReadLine();
-
-        Console.WriteLine("Введите вашу Фамилию :");
-        var Oldname = Console.ReadLine();
-
-
-        /// Ввод возраста с проверкой на корректное число 
-        int Age;
-        string age;
-        int intage;
+        //Заводим номенклатуру товаров 
+        Product[] tov = new Product[11];
+        tov[0] = new Product (1 , "Гриф Олимпийский с замками 20кг",  20000 );
+        tov[1] = new Product(2 ,"Диск 20кг",  3000);
+        tov[2] = new Product(3 ,"Диск 10кг",  2000);
+        tov[3] = new Product(4 ,"Диск 5кг",  1000);
+        tov[4] = new Product(5 ,"Гиря 32кг",  2500);
+        tov[5] = new Product(6 ,"Гиря 24кг",  2000);
+        tov[6] = new Product(7 ,"Гиря 16кг",  1500);
+        tov[7] = new Product(8 ,"Гантель 5кг", 600);
+        tov[8] = new Product(9 ,"Гантель 8кг", 700);
+        tov[9] = new Product(10 ,"Гантель 12кг", 800);
+        tov[10] = new Product(11 ,"Гантель 16кг", 900);
+        
+        //Добавление в Список товаров из класса Продукт
+        List<Product> ListTov = new List<Product>();
+        foreach(var ls in tov)
+        {
+            ListTov.Add(ls);// заносим список товаров в Лист
+        }
+        //----------------------------- Начало Программы ---------------------------------------------- 
+        Console.WriteLine("\tДобро пожаловать в магазин спорт-инвентаря :");
+        Console.WriteLine("  Введите своё Имя :");
+        string nm = Console.ReadLine();
+        Console.WriteLine("  Введите свою Фамилию :");
+        string fn = Console.ReadLine();
+        Console.WriteLine("  Введите свой номер телефона :");
+        string tn = Console.ReadLine();
+        
+        // Объявляем экземпляры класса для занесения в них значений
+        Order<Delivery> MyOrder = new Order<Delivery>();
+        MyOrder.user = new User(nm, fn, tn);
+        Console.WriteLine("  ------ Данные приняты ------");
+        Console.WriteLine("\tИмеются данные товары :");
+        foreach(var p in tov)//Вывод списка товаров
+        {
+            Console.WriteLine( $" {p.pd} - {p.name} = {p.cash} рублей");
+        }
+        Console.WriteLine("-------------------------------------------------------------------------");
+        int numtov;
+        int muchtov;
+        string choice; 
+        //выбор товара и количество (покупателем)
         do
         {
-            Console.WriteLine("Введите свой возраст цифрами :");
-            age = Console.ReadLine();
-        } while (!CheckNum(age, out intage));
-        Age = intage;
-
-
-        /// Ввод количества питомцев если есть 
-       // string[] Pet;
-        Console.WriteLine("Имеется ли у вас питомец Да/Нет :");
-        var result = Console.ReadLine();
-        string[] pitom = new string[0];
-        if (result == "Да" | result == "да")
-        {
-            Console.WriteLine("Укажите сколько у вас питомцев (цифрами) : ");
-            int pets = Convert.ToInt32(Console.ReadLine());
-            pitom = ShowPet(pets);
-
-        }
-        else
-        {
-            Console.WriteLine("У вас нет питомцев");
-        }
-
-
-        Console.WriteLine();
-
-        Console.WriteLine("Напишите сколько у вас любимых цветов цифрами:");
-        string[] col = new string[0];
-        int favcolors;
-        favcolors = Convert.ToInt32(Console.ReadLine());
-        col = ShowColor(favcolors);
-
-        Console.WriteLine();
-
-
-
-        return (Name, Oldname, Age, pitom, col);
-    }
-
-
-    // Проверка введенных данных 
-    static bool CheckNum(string number, out int corrnumber)
-    {
-        corrnumber = 0;
-
-        if (int.TryParse(number, out int intnum))
-        {
-
-            if (intnum > 0 && intnum < 100)
+            Console.WriteLine("   Выберите товар, введите номер товара :");
+            numtov = Convert.ToInt32(Console.ReadLine());
+            //MyOrder.TovaryVkorzineList.Add(ListTov[numtov-1]);
+            Console.WriteLine(" Укажите количество :");
+            muchtov = Convert.ToInt32(Console.ReadLine());
+            for(int i = 0; i < muchtov; i++)
             {
-                corrnumber = intnum;
-                return true;
+                MyOrder.TovaryVkorzineList.Add(ListTov[numtov-1]);
             }
-            return false;
+            Console.WriteLine("   Желаете ли вы добавить еще товары в корзину ? :\n Да/Нет");
+            choice = Console.ReadLine();
         }
-        else
+        while (choice == "да" | choice == "Да" | choice == "ДА");
+        Console.WriteLine("-------------------------------------------------------------------------");
+        Console.WriteLine("-------------------------------------------------------------------------");
+        Console.WriteLine("  Вы выбрали следующие товары :");
+        foreach (var t in MyOrder.TovaryVkorzineList)
         {
-            corrnumber = 0;
-            return false;
+            Console.WriteLine($"{t.name} , {t.cash} ");
         }
+        double sum =0;
+        int kolvo = 0;
+        //Посчет суммы товаров в корзине и количество 
+        foreach (var t in MyOrder.TovaryVkorzineList)
+        {
+            sum += t.cash;// поле цены товара
+            kolvo ++;// счетчик колличества
+        }
+        MyOrder.SumTov = sum;
+
+        Console.WriteLine($"\tОбщая сумма покупки составляет : {MyOrder.SumTov}");
+        Console.WriteLine("-------------------------------------------------------------------------");
+       
+
+        Console.WriteLine("   Выберите способ доставки:\n 1 - Если нужна доставка на дом \n 2 - Если требуется доставка до Постамата \n 3 - Если вы хотите забрать товар из магазина");
+        Adress adress = new Adress();
+        int change = Convert.ToInt32(Console.ReadLine());
+        switch (change)
+        {
+            case 1:
+                Console.WriteLine("------------------------------------------------------------");
+                MyOrder.Delivery = new HomeDelivery();
+                var homedeliv = (HomeDelivery)MyOrder.Delivery;
+                homedeliv.GetPrice(kolvo);
+                Console.WriteLine("  Вы выбрали доставку на дом, введите свой адрес для доставки :");
+                Console.WriteLine("  Введите индекс вашего населеннго пункта :");
+                adress.indexcity = Console.ReadLine();
+                Console.WriteLine("  Введите ваш город :");
+                adress.city = Console.ReadLine();
+                Console.WriteLine("  Введите вашу улицу :");
+                adress.street = Console.ReadLine();
+                Console.WriteLine("  Введите номер дома :");
+                adress.house = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("  Введите номер квартиры:");
+                adress.appartment = Convert.ToInt32(Console.ReadLine());
+                homedeliv.SetHomeAdrNew(adress);
+                break;
+            
+            case 2:
+                Console.WriteLine("------------------------------------------------------------");
+                MyOrder.Delivery = new PickPointDelivery(645982);// Цифры в скобках это boxnumber для присваивания номера отправления посылки,
+                                                                 // по идее должен в ордер вкладываться при необходимости
+                var pickpoit = (PickPointDelivery)MyOrder.Delivery;
+                pickpoit.SetPick();//выбор постамата
+                pickpoit.GetPrice(kolvo);// Подсчет стоимости доставки от количества товаров
+                break;
+            
+            case 3:
+                Console.WriteLine("------------------------------------------------------------");
+                Console.WriteLine("Вы выбрали доставку в магазин");
+                MyOrder.Delivery = new ShopDelivery();
+                var shopdev = (ShopDelivery)MyOrder.Delivery;
+                shopdev.GetPrice(kolvo);
+                break;
+        }
+
+        MyOrder.Number = 100395;//присваиваем номер заказа, хотелось бы сделать это через рандомное значение 5-6 значное, но я этого не умею (
+        Console.WriteLine($"  {MyOrder.user.Name} {MyOrder.user.Family} благодарим вас за выбор нашего магазина");
+        Console.WriteLine($" ---- сводная информация по вашему заказу номер {MyOrder.Number} ---- ");
+        Console.WriteLine(" Выбранные товары в корзине :");
+        foreach(var tt in MyOrder.TovaryVkorzineList)
+        {
+            Console.WriteLine($"  {tt.name}");
+        }
+        Console.WriteLine($" Итоговая сумма к оплате = { MyOrder.SumTov} рублей ");
+        Console.Write($" Выбранный вариант доставки :  ");
+        MyOrder.Delivery.Getadress();
+        Console.WriteLine($" Стоимость доставки = { MyOrder.Delivery.PriceDelivery} рублей ");
+        Console.Write($" При необходимости в вами свяжется наш менеджер по телефону : {MyOrder.user.Telephone} ");
 
     }
-
-
-    //  Создаем массив кличек питомце по введенному колличеству  
-    static string[] ShowPet(int num)
+    abstract class Delivery  
     {
-        var Pets = new string[num];
-        if (num == 1)
+        abstract public Adress Adress { get; set; } 
+        abstract public int PriceDelivery { get; set; }
+        abstract public void Getadress();
+    }
+    class HomeDelivery : Delivery
+    {
+        public override Adress Adress { get; set;}
+        public void SetHomeAdrNew(Adress adress)
         {
-            Console.WriteLine("Напишите кличку вашего питомца :");
-            Pets[0] = Console.ReadLine();
+            Adress = adress;
         }
-        else if (num > 1)
+       /* public void SetHomeAdr()// Ввод адреса для доставки НО НЕ СРАБОТАЛО !!!
         {
-            for (int i = 0; i < num; i++)
+            Console.WriteLine("Вы выбрали доставку на дом, введите свой адрес для доставки :");
+            Console.WriteLine("Введите индекс вашего населеннго пункта :");
+            Adress.indexcity = Console.ReadLine();
+            Console.WriteLine("Введите ваш город :");
+            Adress.city = Console.ReadLine();
+            Console.WriteLine("Введите вашу улицу :");
+            Adress.street = Console.ReadLine();
+            Console.WriteLine("Введите номер дома :");
+            Adress.house = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Введите номер квартиры:");
+            Adress.appartment = Convert.ToInt32(Console.ReadLine());
+        }*/
+        public override int PriceDelivery { get; set;} 
+        public void GetPrice(int num)// num количество товаров
+        {
+            PriceDelivery = num * 100;
+        }
+        public override void Getadress() // Метод вывода адреса 
+        {
+            Console.WriteLine(" \tВы выбрали доставку на дом!");
+            Console.WriteLine($"\tАдресс по которому будет произведена доставка:\n Город {Adress.city}, улица {Adress.street}, дом {Adress.house}, квартира номер {Adress.appartment}");
+        }
+    }
+    class PickPointDelivery : Delivery
+    {
+        public PickPointDelivery(int boxnumber)
+        {
+            this.boxnumber = boxnumber;
+        }
+        public int boxnumber;//значение попадает из конструктора
+        public override Adress Adress { get; set; }
+        public override int PriceDelivery { get; set; }
+        public string SetPick1;
+        public void GetPrice(int num)// num количество товаров 
+        {
+            PriceDelivery = num * 50;
+        }
+        public string[] PickAdr = { " 1) Постамат-Приозерный, г.Уфа, ул.Шафиева, дом 12 ", " 2) Постамат-УфаАрена, г.Уфа, ул.Зорге, дом 46" };
+        public void SetPick()// принимает значение для постамата
+        {
+            Console.Write(" В вашем городе имеются следующие постаматы : \n ");
+            foreach(var pt in PickAdr)
             {
-                Console.WriteLine($"Напишите кличку {i + 1} питомца :");
-                Pets[i] = Console.ReadLine();
+                Console.WriteLine(pt);
             }
+            Console.WriteLine($"Выбирите нужный по номеру от 1 до {PickAdr.Length} ");
+            int i = 0;
+            i = Convert.ToInt32( Console.ReadLine());
+            Console.Write(" Вы выбрали данный постамат : ");
+            Console.WriteLine($" {PickAdr[i-1]} ");
+            SetPick1 = PickAdr[i - 1];
+            Console.WriteLine("------------------------------------------------------------");
         }
-        return Pets;
-    }
-
-    //  Ввод размера массива цветов, ввод их с консоли и передача обратно 
-    public static string[] ShowColor(int fav)
-    {
-        string[] colors = new string[fav];
-        for (int i = 0; i < colors.Length; i++)
+        public override void Getadress()
         {
-            Console.WriteLine($"Напишите ваш любимый цвет номер {i + 1} ");
-            colors[i] = Console.ReadLine();
+            Console.WriteLine("   Вы выбрали доставку в постамат");
+            Console.WriteLine($"  По этому номеру можно будет забрать заказ из постамата : {boxnumber}");
+            Console.WriteLine($"  Вам необходимо забрать посылку по адресу{SetPick1}");
         }
-        return colors;
     }
-
-
-    ///Печать анкеты 
-    static void PrintUser(string Name, string Oldname, int Age, string[] Pet, string[] favcolors)
+    class ShopDelivery : Delivery
     {
-        Console.WriteLine();
-        Console.WriteLine("Выводим сводные данные про Пользователя :");
-        Console.WriteLine();
-        Console.WriteLine($"Ваше имя и фамилия: {Name}  {Oldname}");
-        Console.WriteLine($"Вам {Age} лет");
-        Console.WriteLine("У вас имеются данные питомцы :");
-        foreach (var item in Pet)
+        public override Adress Adress { get; set; }
+        public override int PriceDelivery { get; set; }
+        public string ShopAdr = " г.Уфа, ул.Черниковская 87 ";
+        public void GetPrice(int num)// num количество товаров к примеру
         {
-            Console.WriteLine(item);
+            PriceDelivery = num * 10;
+           // Console.WriteLine($" Сумма доставки составляет : {PriceDelivery} рублей");
         }
-        Console.WriteLine("Ваши любимые цвета :");
-        foreach (var item in favcolors) { Console.WriteLine(item); }
+       
+        public override void Getadress()
+        {
+            Console.WriteLine($" Адресс магазина из которого можно будет забрать посылку :\n {ShopAdr}");
+        }
     }
 
+    // Заказ 
+    class Order<TDelivery> where TDelivery : Delivery
+    {
+        public Order()// пустой конструктор
+        {
+
+        }
+        public User user;
+        public TDelivery Delivery;
+        public int Number;
+        public List<Product> TovaryVkorzineList = new List<Product> { };
+        public double TovaryVkorzine;// список выбранных товаров или List 
+        public double SumTov;// сумма товаров выбранных
+       
+    }
+    public class Product 
+    {
+        public int pd;
+        public string name;
+        public double cash;
+        public Product(int id,string Name, double cash)
+        {
+            pd = id;
+            name = Name;
+            this.cash = cash;
+        }
+    }
+    public class Adress
+    {
+        private string IndexCity;
+        private string City;
+        private string Street;
+        private int House;
+        private int Appartment;
+        public string? indexcity { get { return IndexCity; } set { IndexCity = value; } }
+        public string city { get { return City; } set { City = value; } }
+        public string street { get { return Street; } set { Street = value; } }
+        public int house { get { return House; } set { House = value; } }
+        public int appartment { get { return Appartment; } set { Appartment = value; } }
+        public Adress()
+        {
+
+        }
+        public Adress(string index, string city, string street, int house, int appart)
+        {
+            indexcity = index;
+            this.city = city;
+            this.street = street;
+            this.house = house;
+            appartment = appart;
+        }
+    }
+    public class User
+    {
+        public string Name;
+        public string Family;
+        public string Telephone;
+        public User( string name, string family, string telephone)
+        {
+            Name = name;
+            Family = family;
+            Telephone = telephone;
+        }
+    }
 }
+
+
